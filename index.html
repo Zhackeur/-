@@ -100,11 +100,6 @@ footer{
   font-size:12px;
   color:#86efac;
 }
-#shareBtn{
-  margin-top:10px;
-  background:linear-gradient(135deg,#3b82f6,#60a5fa);
-  color:white;
-}
 #buyBtn{
   margin-top:10px;
   background:linear-gradient(135deg,#f59e0b,#fbbf24);
@@ -123,8 +118,7 @@ footer{
   <input id="username" placeholder="Nom d'utilisateur Roblox">
   <input id="amount" type="number" placeholder="Montant de Robux">
   <button onclick="generate()">GENERATE</button>
-  <button id="shareBtn" onclick="share()">📤 Partager à un ami</button>
-  <button id="buyBtn" onclick="buyRobux()">🛒 Acheter des Robux (officiel)</button>
+  <button id="buyBtn" onclick="buyRobux()">🛒 Acheter des Robux sur le site officiel</button>
 
   <div id="captcha">Clique sur <span id="captchaText"></span> pour vérifier</div>
   <div id="progressBox"><div id="bar"></div></div>
@@ -147,19 +141,6 @@ setInterval(()=>{
   document.getElementById("winnerName").textContent=n;
   document.getElementById("winnerAmount").textContent=a;
 },3000);
-
-function share(){
-  const url=window.location.href;
-  if(navigator.share){
-    navigator.share({
-      title:"Robux Generator",
-      text:"Regarde ce générateur de Robux 😱",
-      url:url
-    });
-  }else{
-    prompt("Copie ce lien et envoie-le à ton ami :",url);
-  }
-}
 
 function buyRobux(){
   window.open("https://www.roblox.com/upgrades/robux", "_blank");
@@ -210,10 +191,7 @@ function generate(){
 
       if(progress>=100){
         clearInterval(interval);
-        result.innerHTML=
-          "😂 BLAGUE !<br>" +
-          "Les générateurs de Robux gratuits n'existent pas.<br><br>" +
-          "➡️ Utilise le site officiel pour en acheter.";
+        result.innerHTML="Processus terminé. Clique ci-dessous pour continuer.";
         buyBtn.style.display="block";
       }
     },300);
