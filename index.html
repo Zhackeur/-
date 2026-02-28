@@ -4,49 +4,159 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Robux Generator (Simulation)</title>
+
 <style>
+/* FOND STYLE ROBLOX */
 body{
-  background:radial-gradient(circle at top,#052e16,#020617);
-  font-family:Arial,sans-serif;text-align:center;color:white;padding:30px 10px;
+  background:
+    radial-gradient(circle at top, #0b5f2a, #020617),
+    repeating-linear-gradient(45deg, rgba(34,197,94,.08) 0 10px, transparent 10px 20px);
+  font-family: Arial, sans-serif;
+  text-align:center;
+  color:white;
+  padding:25px 10px;
 }
-.logo{font-size:26px;font-weight:bold;color:#22c55e;text-shadow:0 0 10px #22c55e;margin-bottom:10px}
-.box{background:#022c22;max-width:380px;margin:auto;padding:25px;border-radius:18px;box-shadow:0 0 35px rgba(34,197,94,.5)}
-input,button{width:90%;padding:12px;margin-top:10px;border-radius:10px;border:none;font-size:16px}
-input{background:#064e3b;color:white}
-button{background:linear-gradient(135deg,#22c55e,#4ade80);font-weight:bold;cursor:pointer;animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 5px #22c55e}50%{box-shadow:0 0 20px #22c55e}100%{box-shadow:0 0 5px #22c55e}}
-#progressBox{width:100%;background:#064e3b;border-radius:10px;margin-top:15px;display:none}
-#bar{height:20px;width:0%;background:linear-gradient(90deg,#22c55e,#86efac);border-radius:10px;box-shadow:0 0 15px #22c55e;transition:width .3s}
-#captcha{margin-top:15px;background:#052e16;border:2px dashed #22c55e;padding:10px;display:none;border-radius:8px}
-#captcha span{font-weight:bold;color:#22c55e;font-size:20px}
-#result{margin-top:15px;font-weight:bold}
-footer{margin-top:15px;font-size:12px;color:#86efac}
-#counter{margin-bottom:10px;color:#86efac}
+
+/* LOGO STYLE ROBLOX */
+.logo{
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#22c55e;
+  text-shadow:
+    0 0 10px #22c55e,
+    0 0 20px #16a34a;
+  margin-bottom:10px;
+}
+
+/* BOÎTE PRINCIPALE */
+.box{
+  background:rgba(2,44,34,.9);
+  max-width:380px;
+  margin:auto;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 0 40px rgba(34,197,94,.6);
+}
+
+input,button{
+  width:90%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+}
+
+input{
+  background:#064e3b;
+  color:white;
+}
+
+button{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+  font-weight:bold;
+  cursor:pointer;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%{box-shadow:0 0 5px #22c55e;}
+  50%{box-shadow:0 0 25px #22c55e;}
+  100%{box-shadow:0 0 5px #22c55e;}
+}
+
+/* BARRE DE CHARGEMENT */
+#progressBox{
+  width:100%;
+  background:#064e3b;
+  border-radius:10px;
+  margin-top:15px;
+  display:none;
+}
+#bar{
+  height:20px;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#86efac);
+  border-radius:10px;
+  box-shadow:0 0 15px #22c55e;
+  transition:width .3s;
+}
+
+/* CAPTCHA */
+#captcha{
+  margin-top:15px;
+  background:#052e16;
+  border:2px dashed #22c55e;
+  padding:10px;
+  display:none;
+  border-radius:8px;
+}
+#captcha span{
+  font-weight:bold;
+  color:#22c55e;
+  font-size:20px;
+}
+
+#result{margin-top:15px;font-weight:bold;}
+
+footer{
+  margin-top:15px;
+  font-size:12px;
+  color:#86efac;
+}
+
+/* BLOC FAUX GAGNANTS */
+#winners{
+  margin-top:20px;
+  background:rgba(2,44,34,.8);
+  border-radius:15px;
+  padding:10px;
+  box-shadow:0 0 20px rgba(34,197,94,.4);
+  font-size:14px;
+}
+#winners span{
+  color:#4ade80;
+  font-weight:bold;
+}
+
+/* PAGE WARNING */
 #warning{
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:rgba(2,6,23,.95);display:flex;align-items:center;justify-content:center;z-index:10
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(2,6,23,.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
 }
 #warningBox{
-  background:#022c22;padding:25px;border-radius:15px;max-width:340px;box-shadow:0 0 25px #22c55e
+  background:#022c22;
+  padding:25px;
+  border-radius:15px;
+  max-width:340px;
+  box-shadow:0 0 25px #22c55e;
 }
 </style>
 </head>
+
 <body>
 
+<!-- AVERTISSEMENT -->
 <div id="warning">
   <div id="warningBox">
     <h3>⚠️ AVERTISSEMENT</h3>
-    <p>Ce site est une <b>simulation</b> pour prank & éducation.</p>
+    <p>Ce site est une <b>simulation</b>.</p>
     <p>Aucun Robux réel ne sera généré.</p>
     <button onclick="closeWarning()">J'ai compris</button>
   </div>
 </div>
 
 <div class="logo">ROBLOX GENERATOR</div>
-<div id="counter">👥 Utilisateurs en ligne : <span id="online">128</span></div>
 
 <div class="box">
   <h2>💰 Robux Generator</h2>
+
   <input id="username" placeholder="Nom d'utilisateur Roblox">
   <input id="amount" type="number" placeholder="Montant de Robux">
   <button onclick="generate()">GENERATE</button>
@@ -57,15 +167,30 @@ footer{margin-top:15px;font-size:12px;color:#86efac}
   <div id="result"></div>
 </div>
 
-<footer>⚠️ Simulation prank & éducative – aucun Robux réel</footer>
+<!-- FAUX GAGNANTS -->
+<div id="winners">
+  🎉 <span id="winnerName">AlexPro</span> vient de gagner <span id="winnerAmount">500</span> Robux !
+</div>
 
-<audio id="sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3f8b5d3d3a.mp3" preload="auto"></audio>
+<footer>
+⚠️ Simulation prank & éducative – aucun Robux réel
+</footer>
 
 <script>
-const online=document.getElementById("online");
-setInterval(()=>{online.textContent=100+Math.floor(Math.random()*50)},3000);
+function closeWarning(){
+  document.getElementById("warning").style.display="none";
+}
 
-function closeWarning(){document.getElementById("warning").style.display="none";}
+/* LISTE DE NOMS FAKE */
+const names=["AlexPro","Noob123","DarkPlayer","LunaGirl","MegaBoy","XxPlayerxX","RobloxFan","ShadowKid"];
+const amounts=[100,250,500,1000,2000];
+
+setInterval(()=>{
+  const n=names[Math.floor(Math.random()*names.length)];
+  const a=amounts[Math.floor(Math.random()*amounts.length)];
+  document.getElementById("winnerName").textContent=n;
+  document.getElementById("winnerAmount").textContent=a;
+},3000);
 
 function generate(){
   const user=document.getElementById("username").value;
@@ -75,9 +200,11 @@ function generate(){
   const result=document.getElementById("result");
   const captcha=document.getElementById("captcha");
   const captchaText=document.getElementById("captchaText");
-  const sound=document.getElementById("sound");
 
-  if(!user||!amount){result.innerHTML="❌ Remplis tous les champs.";return;}
+  if(!user||!amount){
+    result.innerHTML="❌ Remplis tous les champs.";
+    return;
+  }
 
   const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
   captchaText.textContent=letters[Math.floor(Math.random()*letters.length)];
@@ -90,7 +217,6 @@ function generate(){
     bar.style.width="0%";
     let progress=0;
     result.innerHTML="Connexion aux serveurs Roblox...";
-    sound.play();
 
     const messages=[
       "Vérification du compte...",
@@ -100,10 +226,15 @@ function generate(){
     let msgIndex=0;
 
     const interval=setInterval(()=>{
-      progress+=5;bar.style.width=progress+"%";
-      if(progress%20===0&&msgIndex<messages.length){result.innerHTML=messages[msgIndex++];}
+      progress+=5;
+      bar.style.width=progress+"%";
+
+      if(progress%20===0 && msgIndex<messages.length){
+        result.innerHTML=messages[msgIndex++];
+      }
+
       if(progress>=100){
-        clearInterval(interval);sound.pause();
+        clearInterval(interval);
         result.innerHTML="😂 C'ÉTAIT UNE BLAGUE<br>❌ Aucun Robux ne peut être généré gratuitement.";
       }
     },250);
