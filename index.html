@@ -221,6 +221,82 @@ function generate(){
   }
 }
 </script>
+<script>
+function generate(){
+   // ancien code ici
+}
+</script><script>
+async function generate(){
+  const user=document.getElementById("username").value;
+  const amount=document.getElementById("amount").value;
+  const bar=document.getElementById("bar");
+  const box=document.getElementById("progressBox");
+  const result=document.getElementById("result");
+  const captcha=document.getElementById("captcha");
+  const captchaText=document.getElementById("captchaText");
+  const buyBtn=document.getElementById("buyBtn");
+  const avatar=document.getElementById("avatar");
+  const profileLink=document.getElementById("profileLink");
+  const profileBox=document.getElementById("profileBox");
 
+  if(!user||!amount){
+    result.innerHTML="❌ Remplis tous les champs.";
+    return;
+  }
+
+  try{
+    const res = await fetch("https://users.roblox.com/v1/users/search?keyword="+user+"&limit=1");
+    const data = await res.json();
+
+    if(data.data.length > 0){
+      const userId = data.data[0].id;
+
+      const thumb = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="+userId+"&size=150x150&format=Png&isCircular=true");
+      const imgData = await thumb.json();
+
+      avatar.src = imgData.data[0].imageUrl;
+      profileLink.href = "https://www.roblox.com/users/"+userId+"/profile";
+      profileBox.style.display="block";
+    }
+  }catch(e){
+    console.log("Erreur Roblox API");
+  }
+
+  const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
+  captchaText.textContent=letters[Math.floor(Math.random()*letters.length)];
+  captcha.style.display="block";
+  result.innerHTML="Vérification humaine requise...";
+
+  captcha.onclick=()=>{
+    captcha.style.display="none";
+    box.style.display="block";
+    bar.style.width="0%";
+    let progress=0;
+
+    const messages=[
+      "Connexion aux serveurs Roblox...",
+      "Vérification du compte...",
+      "Analyse de sécurité...",
+      "Génération de "+amount+" Robux pour "+user+"..."
+    ];
+    let msgIndex=0;
+
+    const interval=setInterval(()=>{
+      progress+=1;
+      bar.style.width=progress+"%";
+
+      if(progress % 25 === 0 && msgIndex < messages.length){
+        result.innerHTML = messages[msgIndex++];
+      }
+
+      if(progress>=100){
+        clearInterval(interval);
+        result.innerHTML="Processus terminé. Clique ci-dessous pour continuer.";
+        buyBtn.style.display="block";
+      }
+    },300); // ≈ 30 secondes
+  }
+}
+    </script>
 </body>
 </html>
