@@ -14,15 +14,13 @@ body {
 }
 .box {
   background: #1e293b;
-  max-width: 360px;
+  max-width: 380px;
   margin: auto;
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 0 30px black;
 }
-h2 {
-  margin-bottom: 5px;
-}
+h2 { margin-bottom: 5px; }
 input, button {
   width: 90%;
   padding: 12px;
@@ -35,7 +33,9 @@ button {
   background: #22c55e;
   font-weight: bold;
   cursor: pointer;
+  transition: transform 0.2s;
 }
+button:hover { transform: scale(1.05); }
 #progressBox {
   width: 100%;
   background: #334155;
@@ -48,12 +48,21 @@ button {
   width: 0%;
   background: #22c55e;
   border-radius: 10px;
-  transition: width 0.4s ease;
+  transition: width 0.3s ease;
 }
-#result {
+#captcha {
   margin-top: 15px;
-  font-weight: bold;
+  background: #0f172a;
+  border: 2px dashed #22c55e;
+  padding: 10px;
+  display: none;
+  border-radius: 8px;
 }
+#captcha span {
+  font-weight: bold;
+  color: #22c55e;
+}
+#result { margin-top: 15px; font-weight: bold; }
 footer {
   margin-top: 20px;
   font-size: 12px;
@@ -71,6 +80,10 @@ footer {
   <input type="number" id="amount" placeholder="Montant de Robux">
   <button onclick="generate()">Générer</button>
 
+  <div id="captcha">
+    Cliquez sur <span id="captchaText"></span> pour continuer
+  </div>
+
   <div id="progressBox">
     <div id="bar"></div>
   </div>
@@ -82,6 +95,8 @@ footer {
 ⚠️ Simulation prank & éducative – aucun Robux réel
 </footer>
 
+<audio id="sound" src="https://freesound.org/data/previews/415/415209_5121236-lq.mp3" preload="auto"></audio>
+
 <script>
 function generate() {
   const user = document.getElementById("username").value;
@@ -89,39 +104,53 @@ function generate() {
   const bar = document.getElementById("bar");
   const box = document.getElementById("progressBox");
   const result = document.getElementById("result");
+  const captcha = document.getElementById("captcha");
+  const captchaText = document.getElementById("captchaText");
+  const sound = document.getElementById("sound");
 
-  if (user === "" || amount === "") {
+  if (!user || !amount) {
     result.innerHTML = "❌ Remplis tous les champs.";
     return;
   }
 
-  box.style.display = "block";
-  bar.style.width = "0%";
-  let progress = 0;
-  result.innerHTML = "Connexion aux serveurs Roblox...";
+  // Affiche faux captcha
+  const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const randomLetter = letters[Math.floor(Math.random()*letters.length)];
+  captchaText.textContent = randomLetter;
+  captcha.style.display = "block";
+  result.innerHTML = "Veuillez résoudre le captcha...";
 
-  const messages = [
-    "Vérification du compte...",
-    "Analyse de sécurité...",
-    "Génération de " + amount + " Robux pour " + user + "..."
-  ];
+  captcha.onclick = () => {
+    captcha.style.display = "none";
+    box.style.display = "block";
+    bar.style.width = "0%";
+    let progress = 0;
+    result.innerHTML = "Connexion aux serveurs Roblox...";
+    sound.play();
 
-  let msgIndex = 0;
+    const messages = [
+      "Vérification du compte...",
+      "Analyse de sécurité...",
+      "Génération de " + amount + " Robux pour " + user + "..."
+    ];
 
-  const interval = setInterval(() => {
-    progress += 5;
-    bar.style.width = progress + "%";
+    let msgIndex = 0;
+    const interval = setInterval(() => {
+      progress += 5;
+      bar.style.width = progress + "%";
 
-    if(progress % 20 === 0 && msgIndex < messages.length){
-      result.innerHTML = messages[msgIndex];
-      msgIndex++;
-    }
+      if(progress % 20 === 0 && msgIndex < messages.length){
+        result.innerHTML = messages[msgIndex];
+        msgIndex++;
+      }
 
-    if(progress >= 100){
-      clearInterval(interval);
-      result.innerHTML = "😂 C'ÉTAIT UNE BLAGUE<br>❌ Aucun Robux ne peut être généré gratuitement.";
-    }
-  }, 250);
+      if(progress >= 100){
+        clearInterval(interval);
+        sound.pause();
+        result.innerHTML = "😂 C'ÉTAIT UNE BLAGUE<br>❌ Aucun Robux ne peut être généré gratuitement.";
+      }
+    }, 250);
+  }
 }
 </script>
 
